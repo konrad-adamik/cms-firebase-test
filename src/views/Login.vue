@@ -39,8 +39,8 @@ export default class Login extends Vue {
 		FirebaseService.loginWithEmailAndPassword(this.email, this.password)
 			.then(response => {
 				if (response.user?.uid) {
-					FirebaseService.getUserInfo(response.user?.uid).then(
-						user => {
+					FirebaseService.getUserInfo(response.user?.uid)
+						.then(user => {
 							if (user.isCmsUser) {
 								this.$store.commit(
 									"setUserNickname",
@@ -53,8 +53,8 @@ export default class Login extends Vue {
 									"Ten użytkownik nie ma odpowiednich uprawnień";
 								FirebaseService.logOut();
 							}
-						}
-					);
+						})
+						.catch(exception => (this.errorMessage = exception));
 				}
 			})
 			.catch(exception => (this.errorMessage = exception));

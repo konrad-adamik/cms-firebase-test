@@ -56,7 +56,9 @@ export default class FirebaseService {
 					const user: FirebaseUserDocument = querySnapshot.docs[0].data() as FirebaseUserDocument;
 					return user;
 				}
-				throw new Error("Wystapił problem ze znalezieniem użytkownika");
+				throw new Error(
+					"Wystapił problem z pobraniem danych dla użytkownika"
+				);
 			})
 			.catch(exception => {
 				throw new Error(exception.message);
