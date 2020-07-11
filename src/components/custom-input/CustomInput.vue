@@ -7,6 +7,7 @@
 			:type="type"
 			:value="value"
 			@input="$emit('input', $event.target.value)"
+			@keyup.enter="keyupEnter"
 		/>
 	</div>
 </template>
@@ -23,6 +24,9 @@ export default class CustomInput extends Vue {
 
 	@Prop({ default: "text" })
 	readonly type!: string;
+
+	@Prop()
+	readonly keyupEnter!: Function;
 }
 </script>
 <style lang="scss" scoped>

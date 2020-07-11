@@ -1,14 +1,41 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Login from "../views/Login.vue";
+import Login from "@/views/Login.vue";
+import Menu from "@/views/Menu.vue";
+import store from "@/store";
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
 	{
-		path: "/",
+		path: "*",
+		redirect: () => {
+			return store.state.appState.userLoggedIn ? "/menu" : "/login";
+		}
+	},
+	{
+		path: "/login",
 		name: "Login",
-		component: Login
+		component: Login,
+		beforeEnter: (to, from, next) => {
+			if (store.state.appState.userLoggedIn) {
+				next("/menu");
+			} else {
+				next();
+			}
+		}
+	},
+	{
+		path: "/menu",
+		name: "Menu",
+		component: Menu,
+		beforeEnter: (to, from, next) => {
+			if (!store.state.appState.userLoggedIn) {
+				next("/login");
+			} else {
+				next();
+			}
+		}
 	}
 ];
 
