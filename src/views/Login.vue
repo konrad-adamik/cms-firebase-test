@@ -6,14 +6,14 @@
 					autocomplete="nope"
 					label="E-mail"
 					v-model="email"
-					@keyup.enter="onLoginClicked"
+					:keyup-enter="onLoginClicked"
 				/>
 				<custom-input
 					autocomplete="new-password"
 					type="password"
 					label="Hasło"
 					v-model="password"
-					@keyup.enter="onLoginClicked"
+					:keyup-enter="onLoginClicked"
 				/>
 				<custom-button
 					buttonText="Zaloguj się"
@@ -29,7 +29,7 @@ import { Component, Vue } from "vue-property-decorator";
 import FirebaseService from "../service/FirebaseService";
 
 @Component
-export default class LoginPage extends Vue {
+export default class Login extends Vue {
 	email = "";
 	errorMessage = "";
 	password = "";
@@ -46,6 +46,8 @@ export default class LoginPage extends Vue {
 									"setUserNickname",
 									user.nickname
 								);
+								this.$store.commit("setUserLoggedIn", true);
+								this.$router.push("/menu");
 							} else {
 								this.errorMessage =
 									"Ten użytkownik nie ma odpowiednich uprawnień";

@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<Header />
+		<Header id="header" />
 		<router-view id="router-view" />
 	</div>
 </template>
@@ -29,10 +29,20 @@ export default class App extends Vue {}
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	height: 100%;
+	min-height: 300px;
+	min-width: 300px;
+	position: relative;
+}
+
+#header {
+	position: relative;
+	top: 0;
 }
 
 #router-view {
+	position: absolute;
+	top: 55px;
+	width: 100%;
 	height: calc(100% - 55px);
-	margin-top: 10px;
 }
 </style>
