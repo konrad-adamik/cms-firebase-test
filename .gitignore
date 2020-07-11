@@ -23,3 +23,6 @@ pnpm-debug.log*
 
 #firebase config
 firebase-config.json
+
+#deploy
+deploy.sh
