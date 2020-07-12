@@ -1,17 +1,16 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import store from "@/store/index";
+
 import { FIRESTORE_COLLECTION } from "@/enums/FirestoreCollection";
 import FirebaseUserDocument from "@/interfaces/firebase/FirebaseUserDocument";
+
+import router from "@/router/index";
+import store from "@/store/index";
 
 export default class FirebaseService {
 	private static firebaseAuthInstance: firebase.auth.Auth;
 	private static firestoreInstance: firebase.firestore.Firestore;
-
-	private static uiConfig = {
-		signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID]
-	};
 
 	public static initializeFirebase(): void {
 		import("@/firebase-config/firebase-config.json").then(config => {
@@ -20,6 +19,17 @@ export default class FirebaseService {
 				console.log("Firebase initialized!");
 				store.commit("setFirebaseConfigPresent", true);
 				this.firebaseAuthInstance = firebase.auth();
+				this.firebaseAuthInstance.onAuthStateChanged(user => {
+					if (user) {
+						store.commit("setUserLoggedIn", true);
+						store.commit("setUserEmail", user.email);
+						router.replace("/menu");
+					} else {
+						store.commit("setUserLoggedIn", false);
+						store.commit("setUserEmail", "");
+						router.replace("/login");
+					}
+				});
 				this.firestoreInstance = firebase.firestore();
 			}
 		});

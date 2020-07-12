@@ -1,9 +1,9 @@
 <template>
 	<div class="header">
 		<img src="@/assets/cms-logo.png" />
-		<span v-show="userNickname.length > 0">
+		<span v-show="userEmail.length > 0">
 			<i class="fa fa-user" aria-hidden="true"></i>
-			{{ userNickname }}
+			{{ userEmail }}
 		</span>
 	</div>
 </template>
@@ -11,8 +11,8 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class Header extends Vue {
-	get userNickname(): string {
-		return this.$store.state?.appState?.userNickname;
+	get userEmail(): string {
+		return this.$store.state?.appState?.userEmail;
 	}
 }
 </script>

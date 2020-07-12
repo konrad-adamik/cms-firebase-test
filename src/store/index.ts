@@ -8,7 +8,11 @@ export default new Vuex.Store({
 		appState: {
 			firebaseConfigPresent: false,
 			userLoggedIn: false,
-			userNickname: ""
+			userEmail: ""
+		},
+		loadingSpinner: {
+			show: false,
+			text: ""
 		}
 	},
 	mutations: {
@@ -18,8 +22,12 @@ export default new Vuex.Store({
 		setUserLoggedIn(state, payload) {
 			state.appState.userLoggedIn = payload;
 		},
-		setUserNickname(state, payload) {
-			state.appState.userNickname = payload;
+		setUserEmail(state, payload) {
+			state.appState.userEmail = payload;
+		},
+		toggleLoadingSpinner(state, payload) {
+			state.loadingSpinner.show = !state.loadingSpinner.show;
+			state.loadingSpinner.text = payload ? payload : "";
 		}
 	},
 	actions: {},

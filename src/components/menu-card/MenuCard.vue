@@ -1,7 +1,7 @@
 <template functional>
 	<button
 		:class="['menu-card', props.disabled ? 'disabled' : '']"
-		@click="props.disabled ? props.menuClicked : ''"
+		@click="props.disabled ? null : props.menuClicked()"
 	>
 		<p>{{ props.title }}</p>
 		<slot name="menu-card-icon" />
