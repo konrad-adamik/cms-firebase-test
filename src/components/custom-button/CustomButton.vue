@@ -1,5 +1,10 @@
 <template functional>
-	<button class="custom-button" type="button" v-on="listeners">
+	<button
+		:class="['custom-button', props.disabled ? 'disabled' : '']"
+		type="button"
+		:disabled="props.disabled ? true : false"
+		v-on="listeners"
+	>
 		{{ props.buttonText }}
 	</button>
 </template>
@@ -9,15 +14,21 @@
 	border: 1px solid #05063e;
 	border-radius: 10px;
 	color: #ffffff;
-	height: 40px;
-	width: 100px;
+	cursor: pointer;
+	height: 60px;
+	width: 120px;
 }
 
 .custom-button:focus {
 	outline: none;
 }
 
-.custom-button:active {
+.custom-button:active:not(.disabled) {
 	background-color: #0f1168;
+}
+
+.disabled {
+	background-color: #555574;
+	cursor: not-allowed;
 }
 </style>

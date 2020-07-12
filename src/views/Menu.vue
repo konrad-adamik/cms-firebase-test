@@ -21,6 +21,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import MenuCard from "@/components/menu-card/MenuCard.vue";
 import MenuCardEntry from "@/interfaces/MenuCardEntry";
+import FirebaseService from "../service/FirebaseService";
 
 @Component({
 	components: {
@@ -46,17 +47,39 @@ export default class Menu extends Vue {
 			disabled: true,
 			icon: "fa fa-eye fa-3x",
 			menuClicked: this.onViewArticlesClicked
+		},
+		{
+			title: "",
+			disabled: true,
+			icon: "fa fa-question fa-3x"
+		},
+		{
+			title: "Ustawienia",
+			disabled: true,
+			icon: "fa fa-cog fa-3x"
+		},
+		{
+			title: "Wyloguj",
+			disabled: false,
+			icon: "fa fa-sign-out fa-3x",
+			menuClicked: this.onLogOutClicked
 		}
 	];
 
 	onAddArticleClicked(): void {
-		console.log("add article!");
+		this.$router.push("/create-article");
 	}
 	onEditArticleClicked(): void {
 		console.log("edit article!");
 	}
 	onViewArticlesClicked(): void {
 		console.log("view articles");
+	}
+	onLogOutClicked(): void {
+		this.$store.commit("toggleLoadingSpinner", "Wylogowywanie...");
+		FirebaseService.logOut().finally(() => {
+			this.$store.commit("toggleLoadingSpinner");
+		});
 	}
 }
 </script>

@@ -12,10 +12,16 @@ import Header from "@/components/header/Header.vue";
 import LoadingSpinner from "@/components/loading-spinner/LoadingSpinner.vue";
 
 import CustomInput from "@/components/custom-input/CustomInput.vue";
+import CustomTextarea from "@/components/custom-textarea/CustomTextarea.vue";
+import CustomSelect from "@/components/custom-select/CustomSelect.vue";
 import CustomButton from "@/components/custom-button/CustomButton.vue";
+import CustomDivider from "@/components/custom-divider/CustomDivider.vue";
 
 Vue.component("custom-input", CustomInput);
+Vue.component("custom-textarea", CustomTextarea);
+Vue.component("custom-select", CustomSelect);
 Vue.component("custom-button", CustomButton);
+Vue.component("custom-divider", CustomDivider);
 
 @Component({
 	components: {
@@ -34,7 +40,6 @@ export default class App extends Vue {}
 	height: 100%;
 	min-height: 300px;
 	min-width: 300px;
-	position: relative;
 }
 
 #header {
@@ -43,9 +48,9 @@ export default class App extends Vue {}
 }
 
 #router-view {
-	position: absolute;
-	top: 55px;
+	position: relative;
+	top: 25px;
 	width: 100%;
-	height: calc(100% - 55px);
+	height: calc(100% - 75px);
 }
 </style>

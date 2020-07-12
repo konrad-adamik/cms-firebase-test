@@ -37,19 +37,17 @@ export default class Login extends Vue {
 	onLoginClicked(): void {
 		this.errorMessage = "";
 		this.$store.commit("toggleLoadingSpinner", "Logowanie...");
+		if (!this.$store.state.appState.firebaseConfigPresent) {
+			this.errorMessage =
+				"Połączenie z bazą nie zostało poprawnie zaincjalizowane";
+			return;
+		}
 		FirebaseService.loginWithEmailAndPassword(this.email, this.password)
 			.then(response => {
 				if (response.user?.uid) {
 					FirebaseService.getUserInfo(response.user?.uid)
 						.then(user => {
-							if (user.isCmsUser) {
-								this.$store.commit(
-									"setUserNickname",
-									user.nickname
-								);
-								this.$store.commit("setUserLoggedIn", true);
-								this.$router.push("/menu");
-							} else {
+							if (!user.isCmsUser) {
 								this.errorMessage =
 									"Ten użytkownik nie ma odpowiednich uprawnień";
 								FirebaseService.logOut();
