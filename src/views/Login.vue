@@ -1,5 +1,5 @@
 <template>
-	<div class="login-container">
+	<div class="login-container ">
 		<div class="login-panel">
 			<div class="login-form">
 				<custom-input
@@ -36,6 +36,7 @@ export default class Login extends Vue {
 
 	onLoginClicked(): void {
 		this.errorMessage = "";
+		this.$store.commit("toggleLoadingSpinner", "Logowanie...");
 		FirebaseService.loginWithEmailAndPassword(this.email, this.password)
 			.then(response => {
 				if (response.user?.uid) {
@@ -57,11 +58,14 @@ export default class Login extends Vue {
 						.catch(exception => (this.errorMessage = exception));
 				}
 			})
-			.catch(exception => (this.errorMessage = exception));
+			.catch(exception => (this.errorMessage = exception))
+			.finally(() => this.$store.commit("toggleLoadingSpinner"));
 	}
 }
 </script>
 <style scoped lang="scss">
+@use "src/loadingspinner";
+
 .login-container {
 	align-items: center;
 	display: flex;

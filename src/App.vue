@@ -1,5 +1,6 @@
 <template>
 	<div id="app">
+		<LoadingSpinner />
 		<Header id="header" />
 		<router-view id="router-view" />
 	</div>
@@ -8,6 +9,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import Header from "@/components/header/Header.vue";
+import LoadingSpinner from "@/components/loading-spinner/LoadingSpinner.vue";
 
 import CustomInput from "@/components/custom-input/CustomInput.vue";
 import CustomButton from "@/components/custom-button/CustomButton.vue";
@@ -17,7 +19,8 @@ Vue.component("custom-button", CustomButton);
 
 @Component({
 	components: {
-		Header
+		Header,
+		LoadingSpinner
 	}
 })
 export default class App extends Vue {}

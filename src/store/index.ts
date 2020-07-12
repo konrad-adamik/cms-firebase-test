@@ -9,6 +9,10 @@ export default new Vuex.Store({
 			firebaseConfigPresent: false,
 			userLoggedIn: false,
 			userNickname: ""
+		},
+		loadingSpinner: {
+			show: false,
+			text: ""
 		}
 	},
 	mutations: {
@@ -20,6 +24,10 @@ export default new Vuex.Store({
 		},
 		setUserNickname(state, payload) {
 			state.appState.userNickname = payload;
+		},
+		toggleLoadingSpinner(state, payload) {
+			state.loadingSpinner.show = !state.loadingSpinner.show;
+			state.loadingSpinner.text = payload ? payload : "";
 		}
 	},
 	actions: {},
