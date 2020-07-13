@@ -63,9 +63,13 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { ArticleHeader, ArticleContent } from "@/interfaces/Article";
+import {
+	ArticleHeader,
+	ArticleContent
+} from "@/interfaces/firebase/FirebaseArticleDocument";
 import { VueEditor } from "vue2-editor";
 import moment from "moment";
+import FirebaseService from "../service/FirebaseService";
 
 @Component({
 	components: {
@@ -123,7 +127,23 @@ export default class CreateArticle extends Vue {
 
 	private onCreateArticleClicked(): void {
 		if (!this.isCreateArticleDisbled) {
-			console.log("AA");
+			this.$store.commit(
+				"toggleLoadingSpinner",
+				"Tworzenie nowego artykułu..."
+			);
+			FirebaseService.createNewArticle({
+				articleHeader: this.articleHeader,
+				articleContent: this.articleContent
+			})
+				.then(resposne => {
+					console.log("SUCESS!");
+				})
+				.catch(exception => {
+					throw new Error(exception.message);
+				})
+				.finally(() => {
+					this.$store.commit("toggleLoadingSpinner");
+				});
 		}
 	}
 
