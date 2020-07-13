@@ -7,6 +7,7 @@ import FirebaseUserDocument from "@/interfaces/firebase/FirebaseUserDocument";
 
 import router from "@/router/index";
 import store from "@/store/index";
+import { Article } from "@/interfaces/firebase/FirebaseArticleDocument";
 
 export default class FirebaseService {
 	private static firebaseAuthInstance: firebase.auth.Auth;
@@ -16,8 +17,8 @@ export default class FirebaseService {
 		import("@/firebase-config/firebase-config.json").then(config => {
 			firebase.initializeApp(config);
 			if (firebase.apps.length > 0) {
-				console.log("Firebase initialized!");
 				store.commit("setFirebaseConfigPresent", true);
+
 				this.firebaseAuthInstance = firebase.auth();
 				this.firebaseAuthInstance.onAuthStateChanged(user => {
 					if (user) {
@@ -30,6 +31,7 @@ export default class FirebaseService {
 						router.replace("/login");
 					}
 				});
+
 				this.firestoreInstance = firebase.firestore();
 			}
 		});
@@ -69,6 +71,26 @@ export default class FirebaseService {
 				throw new Error(
 					"Wystapił problem z pobraniem danych dla użytkownika"
 				);
+			})
+			.catch(exception => {
+				throw new Error(exception.message);
+			});
+	}
+
+	public static createNewArticle(article: Article): Promise<boolean> {
+		return this.firestoreInstance
+			.collection(FIRESTORE_COLLECTION.ARTICLES)
+			.add(article.articleHeader)
+			.then(response => {
+				return response
+					.collection(FIRESTORE_COLLECTION.ARTICLE_CONTENT)
+					.add(article.articleContent)
+					.then(() => {
+						return true;
+					})
+					.catch(exception => {
+						throw new Error(exception.message);
+					});
 			})
 			.catch(exception => {
 				throw new Error(exception.message);
