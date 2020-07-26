@@ -8,14 +8,14 @@ export interface ArticleHeader {
 	date: string;
 	description: string;
 	imageUrl: string;
-	serie: number;
+	serie: number | undefined;
 	title: string;
 	turtles: number;
 }
 
 export interface ArticleContent {
-	authorNote: string;
 	contentBody: string;
+	authorNote: string;
 	relatedArticles: Array<RelatedArticle>;
 	relatedNote: string;
 }
