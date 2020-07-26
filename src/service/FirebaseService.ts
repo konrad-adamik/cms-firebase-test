@@ -8,7 +8,8 @@ import FirebaseUserDocument from "@/interfaces/firebase/FirebaseUserDocument";
 import router from "@/router/index";
 import store from "@/store/index";
 import { Article } from "@/interfaces/firebase/FirebaseArticleDocument";
-import FirebaseSerieDocument from "@/interfaces/firebase/FirebaseSerieDocuments";
+import FirebaseSerieDocument from "@/interfaces/firebase/FirebaseSerieDocument";
+import Serie from "@/interfaces/Serie";
 
 export default class FirebaseService {
 	private static firebaseAuthInstance: firebase.auth.Auth;
@@ -77,15 +78,19 @@ export default class FirebaseService {
 				throw new Error(exception.message);
 			});
 	}
-	public static getSeries(): Promise<Array<FirebaseSerieDocument>> {
+	public static getSeries(): Promise<Array<Serie>> {
 		return this.firestoreInstance
 			.collection(FIRESTORE_COLLECTION.SERIES)
 			.get()
 			.then(querySnapshot => {
 				if (!querySnapshot.empty) {
-					const series: Array<FirebaseSerieDocument> = [];
+					const series: Array<Serie> = [];
 					querySnapshot.docs.forEach(doc => {
-						series.push(doc.data() as FirebaseSerieDocument);
+						const firebaseSerie = doc.data() as FirebaseSerieDocument;
+						series.push({
+							id: parseInt(doc.id, 10),
+							title: firebaseSerie.title
+						});
 					});
 					return series;
 				}

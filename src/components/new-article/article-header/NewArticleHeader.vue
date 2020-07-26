@@ -97,7 +97,7 @@ import moment from "moment";
 @Component
 export default class NewArticleHeader extends Vue {
 	private validateTurtles = (
-		rule: any,
+		rule: never,
 		value: number,
 		callback: Function
 	) => {
@@ -211,7 +211,6 @@ export default class NewArticleHeader extends Vue {
 		let isArticleHeaderValid = false;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(this.$refs.newArticleForm as any).validate((valid: boolean) => {
-			console.log("VALID?", valid);
 			isArticleHeaderValid = valid;
 			return valid;
 		});
