@@ -8,6 +8,7 @@ import FirebaseUserDocument from "@/interfaces/firebase/FirebaseUserDocument";
 import router from "@/router/index";
 import store from "@/store/index";
 import { Article } from "@/interfaces/firebase/FirebaseArticleDocument";
+import FirebaseSerieDocument from "@/interfaces/firebase/FirebaseSerieDocuments";
 
 export default class FirebaseService {
 	private static firebaseAuthInstance: firebase.auth.Auth;
@@ -76,11 +77,34 @@ export default class FirebaseService {
 				throw new Error(exception.message);
 			});
 	}
+	public static getSeries(): Promise<Array<FirebaseSerieDocument>> {
+		return this.firestoreInstance
+			.collection(FIRESTORE_COLLECTION.SERIES)
+			.get()
+			.then(querySnapshot => {
+				if (!querySnapshot.empty) {
+					const series: Array<FirebaseSerieDocument> = [];
+					querySnapshot.docs.forEach(doc => {
+						series.push(doc.data() as FirebaseSerieDocument);
+					});
+					return series;
+				}
+				throw new Error("Wystapił problem z pobraniem serii");
+			})
+			.catch(exception => {
+				throw new Error(exception.message);
+			});
+	}
 
 	public static createNewArticle(article: Article): Promise<boolean> {
 		return this.firestoreInstance
 			.collection(FIRESTORE_COLLECTION.ARTICLES)
-			.add(article.articleHeader)
+			.add({
+				...article.articleHeader,
+				date: firebase.firestore.Timestamp.fromDate(
+					new Date(article.articleHeader.date)
+				)
+			})
 			.then(response => {
 				return response
 					.collection(FIRESTORE_COLLECTION.ARTICLE_CONTENT)

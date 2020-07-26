@@ -1,49 +1,7 @@
 <template>
 	<div class="create-article-container">
 		<custom-divider label="Informacje na temat artykułu" />
-		<div class="article-header">
-			<custom-input label="Autor" v-model="articleHeader.author" />
-			<custom-input
-				style="grid-row: 2"
-				label="Tytuł"
-				v-model="articleHeader.title"
-			/>
-			<custom-input
-				type="datetime-local"
-				label="Data"
-				v-model="articleHeader.date"
-			/>
-			<custom-input
-				style="grid-row: 2"
-				label="Adres url obrazka"
-				v-model="articleHeader.imageUrl"
-			/>
-			<custom-select
-				label="Seria"
-				v-model.number="articleHeader.serie"
-				:select-options="serieSelectOptions"
-			/>
-			<custom-input
-				style="grid-row: 2"
-				label="Żółwiki"
-				type="number"
-				v-model.number="articleHeader.turtles"
-			/>
-			<custom-textarea label="Opis" v-model="articleHeader.description" />
-			<custom-textarea
-				label="Notatka autora"
-				v-model="articleContent.authorNote"
-			/>
-			<custom-textarea
-				label="Related note"
-				v-model="articleContent.relatedNote"
-			/>
-			<custom-button
-				class="add-articles-button"
-				buttonText="Dodaj powiązane artykuły"
-				@click="onAddRelatedArticlesClicked"
-			/>
-		</div>
+		<NewArticleHeader ref="newArticleHeader" />
 		<custom-divider label="Treść artykułu" />
 		<div class="article-content">
 			<vue-editor
@@ -52,91 +10,56 @@
 			></vue-editor>
 		</div>
 		<div class="button-container">
-			<custom-button buttonText="Anuluj" @click="onCancelClicked" />
-			<custom-button
-				:disabled="isCreateArticleDisbled"
-				buttonText="Stwórz artykuł"
-				@click="onCreateArticleClicked"
-			/>
+			<el-button type="primary" @click="onCancelClicked"
+				>Anuluj</el-button
+			>
+			<el-button type="primary" @click="onCreateArticleClicked"
+				>Stwórz nowy artykuł</el-button
+			>
 		</div>
 	</div>
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import {
-	ArticleHeader,
-	ArticleContent
-} from "@/interfaces/firebase/FirebaseArticleDocument";
+import NewArticleHeader from "@/components/new-article/article-header/NewArticleHeader.vue";
 import { VueEditor } from "vue2-editor";
-import moment from "moment";
 import FirebaseService from "../service/FirebaseService";
 
 @Component({
 	components: {
+		NewArticleHeader,
 		VueEditor
 	}
 })
 export default class CreateArticle extends Vue {
-	get isCreateArticleDisbled(): boolean {
-		if (
-			!this.articleHeader.author ||
-			!this.articleHeader.date ||
-			!this.articleHeader.description ||
-			!this.articleHeader.imageUrl ||
-			!this.articleHeader.title ||
-			!this.articleHeader.serie ||
-			!!this.articleHeader.turtles ||
-			!this.articleContent.contentBody
-		) {
-			return true;
-		}
-		return false;
-	}
-
-	private articleHeader: ArticleHeader = {
-		author: "",
-		date: moment(new Date()).format(moment.HTML5_FMT.DATETIME_LOCAL),
-		description: "",
-		imageUrl: "",
-		title: "",
-		serie: 0,
-		turtles: 0
+	private articleContent = {
+		contentBody: ""
 	};
-
-	private articleContent: ArticleContent = {
-		authorNote: "",
-		contentBody: "",
-		relatedArticles: [],
-		relatedNote: ""
-	};
-
-	private serieSelectOptions = [
-		{
-			value: 0,
-			label: ""
-		},
-		{
-			value: 1,
-			label: "Waga snu w optymalnym rozwoju sylwetki"
-		}
-	];
 
 	private onCancelClicked(): void {
 		this.$router.back();
 	}
 
 	private onCreateArticleClicked(): void {
-		if (!this.isCreateArticleDisbled) {
+		const isArticleHeaderValid = (this.$refs
+			.newArticleHeader as NewArticleHeader).validate();
+
+		if (isArticleHeaderValid) {
 			this.$store.commit(
 				"toggleLoadingSpinner",
 				"Tworzenie nowego artykułu..."
 			);
 			FirebaseService.createNewArticle({
-				articleHeader: this.articleHeader,
-				articleContent: this.articleContent
+				articleHeader: (this.$refs
+					.newArticleHeader as NewArticleHeader).getNewArticleHeader(),
+				articleContent: {
+					...(this.$refs
+						.newArticleHeader as NewArticleHeader).getNewArticleContentPart(),
+					contentBody: this.articleContent.contentBody
+				}
 			})
 				.then(resposne => {
-					console.log("SUCESS!");
+					console.log("SUCESS!", resposne);
 				})
 				.catch(exception => {
 					throw new Error(exception.message);
@@ -156,16 +79,6 @@ export default class CreateArticle extends Vue {
 .create-article-container {
 	display: flex;
 	flex-direction: column;
-}
-
-.article-header {
-	display: grid;
-	grid-template-columns: repeat((7, calc((100% / 7) - 15px)));
-	grid-template-rows: repeat((2, 80px));
-	height: 160px;
-	column-gap: 15px;
-	padding-left: 20px;
-	padding-right: 20px;
 }
 
 .article-content {
