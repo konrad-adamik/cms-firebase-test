@@ -19,7 +19,7 @@
 				v-model="articleHeader.imageUrl"
 			/>
 			<custom-select
-				label="Kategoria"
+				label="Seria"
 				v-model.number="articleHeader.serie"
 				:select-options="serieSelectOptions"
 			/>
