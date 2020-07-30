@@ -1,8 +1,8 @@
 <template>
 	<div class="create-article-container">
-		<custom-divider label="Informacje na temat artykułu" />
+		<divider label="Informacje na temat artykułu" />
 		<NewArticleHeader ref="newArticleHeader" />
-		<custom-divider label="Treść artykułu" />
+		<divider label="Treść artykułu" />
 		<div class="article-content">
 			<vue-editor
 				class="content-editor"
