@@ -1,41 +1,37 @@
 <template functional>
-	<button
-		:class="['menu-card', props.disabled ? 'disabled' : '']"
-		@click="props.disabled ? null : props.menuClicked()"
-	>
-		<p>{{ props.title }}</p>
-		<slot name="menu-card-icon" />
-	</button>
+	<div @click="props.disabled ? null : props.menuClicked()">
+		<el-card
+			:body-style="{
+				height: 'calc(100% - 135px)',
+				display: 'flex',
+				'align-items': 'center',
+				'justify-content': 'center'
+			}"
+			shadow="hover"
+			:class="['box-card', 'menu-card', props.disabled ? 'disabled' : '']"
+		>
+			<p slot="header">{{ props.title }}</p>
+			<div class="menu-card-body">
+				<slot name="menu-card-icon" />
+			</div>
+		</el-card>
+	</div>
 </template>
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+@Component
+export default class MenuCard extends Vue {
+	// Satisfy vetur
+}
+</script>
 <style lang="scss" scoped>
 .menu-card {
 	align-items: center;
-	background-color: #ffffff;
-	border: 2px solid #05063e;
 	border-radius: 10px;
 	color: #05063e;
 	cursor: pointer;
-	display: flex;
-	flex-direction: column;
 	font-size: 18px;
-	justify-content: space-evenly;
-	height: 280px;
-	width: 280px;
-}
-
-.menu-card:hover:not(.disabled) {
-	background-color: #5d5fb3;
-	transition: 0.15s;
-}
-
-.menu-card:active:not(.disabled) {
-	background-color: #40429b;
-	transition: 0.15s;
-	outline: none;
-}
-
-.menu-card:focus {
-	outline: none;
+	height: 100%;
 }
 
 .disabled {

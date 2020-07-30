@@ -11,17 +11,9 @@ import { Component, Vue } from "vue-property-decorator";
 import Header from "@/components/header/Header.vue";
 import LoadingSpinner from "@/components/loading-spinner/LoadingSpinner.vue";
 
-import CustomInput from "@/components/custom-input/CustomInput.vue";
-import CustomTextarea from "@/components/custom-textarea/CustomTextarea.vue";
-import CustomSelect from "@/components/custom-select/CustomSelect.vue";
-import CustomButton from "@/components/custom-button/CustomButton.vue";
-import CustomDivider from "@/components/custom-divider/CustomDivider.vue";
+import Divider from "@/components/divider/Divider.vue";
 
-Vue.component("custom-input", CustomInput);
-Vue.component("custom-textarea", CustomTextarea);
-Vue.component("custom-select", CustomSelect);
-Vue.component("custom-button", CustomButton);
-Vue.component("custom-divider", CustomDivider);
+Vue.component("divider", Divider);
 
 @Component({
 	components: {

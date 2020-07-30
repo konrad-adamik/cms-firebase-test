@@ -49,7 +49,7 @@ export default class Menu extends Vue {
 			menuClicked: this.onViewArticlesClicked
 		},
 		{
-			title: "",
+			title: "?",
 			disabled: true,
 			icon: "fa fa-question fa-3x"
 		},
