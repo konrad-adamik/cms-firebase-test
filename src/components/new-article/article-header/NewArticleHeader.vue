@@ -9,19 +9,40 @@
 		:model="newArticleModel"
 		@submit.native.prevent="this.submit"
 	>
-		<el-form-item label="Autor" prop="author">
+		<el-form-item
+			label="Autor"
+			prop="author"
+			style=" grid-column: 1; grid-row: 1"
+		>
 			<el-input v-model="newArticleModel.author" />
 		</el-form-item>
-		<el-form-item label="Tytuł" prop="title">
+		<el-form-item
+			label="Tytuł"
+			prop="title"
+			style=" grid-column: 2; grid-row: 1"
+		>
 			<el-input style="grid-row: 2" v-model="newArticleModel.title" />
 		</el-form-item>
-		<el-form-item label="Data" prop="date">
+		<el-form-item
+			label="Data"
+			prop="date"
+			style=" grid-column: 3; grid-row: 1"
+		>
 			<el-input type="datetime-local" v-model="newArticleModel.date" />
 		</el-form-item>
-		<el-form-item label="Adres URL obrazu" prop="imageUrl">
+		<el-form-item
+			label="Adres URL obrazu"
+			prop="imageUrl"
+			style=" grid-column: 1 / span 2; grid-row: 2"
+		>
 			<el-input v-model="newArticleModel.imageUrl" />
 		</el-form-item>
-		<el-form-item class="new-article-serie" label="Seria" prop="serie">
+		<el-form-item
+			class="new-article-serie"
+			label="Seria"
+			prop="serie"
+			style=" grid-column: 3; grid-row: 2"
+		>
 			<el-select v-model.number="newArticleModel.serie" placeholder="">
 				<el-option
 					v-for="item in serieOptionList"
@@ -32,14 +53,18 @@
 				</el-option>
 			</el-select>
 		</el-form-item>
-		<el-form-item label="Liczba żółwików" prop="turtles">
+		<el-form-item
+			label="Liczba żółwików"
+			prop="turtles"
+			style=" grid-column: 4; grid-row: 2"
+		>
 			<el-input-number
 				type="number"
 				v-model.number="newArticleModel.turtles"
 			/>
 		</el-form-item>
 		<el-form-item
-			style=" grid-column: 4; grid-row: 1 / span 2;"
+			style=" grid-column: 1 / span 4; grid-row: 3"
 			label="Opis"
 			prop="description"
 		>
@@ -51,7 +76,7 @@
 			/>
 		</el-form-item>
 		<el-form-item
-			style=" grid-column: 5; grid-row: 1 / span 2;"
+			style=" grid-column: 1 / span 4; grid-row: 4"
 			label="Notatka autora"
 			prop="authorNote"
 		>
@@ -63,7 +88,7 @@
 			/>
 		</el-form-item>
 		<el-form-item
-			style=" grid-column: 6; grid-row: 1 / span 2;"
+			style=" grid-column: 1 / span 4; grid-row: 5"
 			label="Notatka do artykułów powiązanych"
 			prop="relatedNote"
 		>
@@ -246,9 +271,8 @@ export default class NewArticleHeader extends Vue {
 <style scoped lang="scss">
 .new-article-header {
 	display: grid;
-	grid-template-columns: repeat((7, auto));
-	grid-template-rows: repeat((2, auto));
-	height: 160px;
+	grid-template-columns: auto;
+	grid-template-rows: auto;
 	column-gap: 15px;
 	padding-left: 20px;
 	padding-right: 20px;
@@ -263,7 +287,7 @@ export default class NewArticleHeader extends Vue {
 
 .add-related-articles-button {
 	align-self: center;
-	grid-row: 1 / span 2;
-	grid-column: 7;
+	grid-row: 1;
+	grid-column: 4;
 }
 </style>

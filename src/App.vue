@@ -1,5 +1,6 @@
 <template>
 	<div id="app">
+		<TheDialog />
 		<LoadingSpinner />
 		<Header id="header" />
 		<router-view id="router-view" />
@@ -10,6 +11,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 import Header from "@/components/header/Header.vue";
 import LoadingSpinner from "@/components/loading-spinner/LoadingSpinner.vue";
+import TheDialog from "@/components/dialog/TheDialog.vue";
 
 import Divider from "@/components/divider/Divider.vue";
 
@@ -18,10 +20,13 @@ Vue.component("divider", Divider);
 @Component({
 	components: {
 		Header,
-		LoadingSpinner
+		LoadingSpinner,
+		TheDialog
 	}
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+	//
+}
 </script>
 <style lang="scss">
 #app {
